@@ -164,7 +164,7 @@ function Load( file ) {
   document.getElementById( "compileButton" ).disabled = true;
   xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = FileLoaded;
-  xmlhttp.open( "GET", "examples/" + file );
+  xmlhttp.open( "GET", "examples/" + file + "?" + new Date().getTime()  );
   xmlhttp.send( null );
 }
 
