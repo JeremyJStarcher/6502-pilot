@@ -208,6 +208,12 @@ function message( text ) {
   obj.scrollTop = obj.scrollHeight;
 }
 
+function messageChar(ch) {
+  obj = document.getElementById( "output" );
+  obj.innerHTML += String.fromCharCode(ch);
+  obj.scrollTop = obj.scrollHeight;
+}
+
 /*
  *  compileCode()
  * 
@@ -1201,6 +1207,7 @@ function execute() {
       stackPush( ((currAddr >> 8) & 0xff) );
       stackPush( (currAddr & 0xff) );
       regPC = addr;
+      captureRedirect();
       break;
     case 0x21:                            // AND INDX
       addr = (popByte() + regX)&0xff;
@@ -1984,3 +1991,8 @@ function updateDisplayFull() {
   }
 }
 
+function captureRedirect() {
+	if (addr === 0xf000) {
+		messageChar(regA);
+	}
+}
