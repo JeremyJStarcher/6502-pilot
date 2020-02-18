@@ -508,6 +508,18 @@ function checkBranch( param, opcode ) {
 
 function checkImmediate( param, opcode ) {
   if( opcode == 0x00 ) return false;
+
+  if( param.match( new RegExp( /^#'.'$/i ) ) ) {
+    pushByte( opcode );
+    value = param.replace( /^#\$/, "" );
+    value = value.slice(2,-1);
+    if (value.length !== 1) return false;
+    value = value.charCodeAt(0);
+    if( value < 0 || value > 255 ) return false;
+    pushByte( value );
+    return true;
+  }
+
   if( param.match( new RegExp( /^#\$[0-9a-f]{1,2}$/i ) ) ) {
     pushByte( opcode );
     value = parseInt( param.replace( /^#\$/, "" ), 16 );
